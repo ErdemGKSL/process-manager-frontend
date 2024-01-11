@@ -22,6 +22,8 @@
     //@ts-ignore
     }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || "NO LOGS";
 
+    logs = logs.replaceAll(/(\\033|\033)\[\d+(;\d+)?m/g, "");
+
     await new Promise((r) => setTimeout(r, wait));
 
     return await recursiveLogFetch(times - 1, wait);
