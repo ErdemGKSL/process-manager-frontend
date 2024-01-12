@@ -37,7 +37,16 @@
 <!-- <CodeBlock code={JSON.stringify(projects, null, 2)} language="json"/> -->
 
 <div class="flex justify-center w-full p-4 flex-col gap-6">
-  <div class="flex flex-row-reverse px-10">
+  <div class="flex flex-row px-10 justify-between">
+    <h1 class="font-semibold text-2xl">
+      ID: {$AUTH.ID}
+      {#if $AUTH.ADMIN}
+        <span class="text-sm font-normal text-gray-400">
+          (Admin)
+        </span>
+      {/if}
+    </h1>
+
     <button class="w-12 h-12 variant-ghost-tertiary p-2 btn rounded-full" on:click={async (e) => {
       let target = e.currentTarget;
       target.disabled = true;

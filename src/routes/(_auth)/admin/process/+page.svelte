@@ -58,14 +58,17 @@
     {#if data}
       {#each data as d}
         <div class="w-full variant-ghost-primary py-2 px-6 rounded-token flex flex-row items-center text-center justify-between">
-          <span class="w-4 h-4 rounded-full {d.process_id ? "variant-filled-success": "variant-filled-error"}" />
+          <div class="flex flex-row justify-center items-center gap-4 text-center">
+            <span class="w-4 h-4 rounded-full {d.process_id ? "variant-filled-success": "variant-filled-error"}" />
+            <p class="font-mono font-semibold">
+              {d.process_id || ""}
+            </p>
+          </div>
           <p class="font-mono font-semibold">
             {d.name}
           </p>
           <div class="flex text-center items-center justify-center gap-3">
-            <p class="font-mono font-semibold">
-              {d.process_id}
-            </p>
+            
             <button class="btn variant-filled-tertiary p-2">
               <Icon icon="mdi:pen" class="w-6 h-6" />
             </button>

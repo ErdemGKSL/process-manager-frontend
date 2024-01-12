@@ -42,7 +42,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				{#if $AUTH.ADMIN}
-					<a class="btn {$page.url.pathname.startsWith("/admin") ? "variant-ghost-secondary" : "variant-filled-secondary"}" href="/admin">
+					<a class="hidden md:flex btn {$page.url.pathname.startsWith("/admin") ? "variant-ghost-secondary" : "variant-filled-secondary"}" href="/admin">
 						Admin
 					</a>
 				{/if}

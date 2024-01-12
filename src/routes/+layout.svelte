@@ -32,6 +32,7 @@
 
 			if (auth?.data?.id) {
 				$AUTH.ADMIN = auth?.data?.admin;
+				$AUTH.ID = auth?.data?.id;
 			}
 
 			$DATA.LOADING = false;
