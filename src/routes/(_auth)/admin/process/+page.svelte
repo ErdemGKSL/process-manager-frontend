@@ -38,21 +38,26 @@
 <div class="p-6 flex flex-col gap-4">
   <div class="flex flex-row items-center justify-between">
     <h1 class="font-semibold text-2xl">Processes</h1>
-    <button class="w-12 h-12 variant-ghost-tertiary p-2 btn rounded-full" on:click={async (e) => {
-      let target = e.currentTarget;
-      target.disabled = true;
-
-      data = (await fetch("https://api-manager.erdemg.dev/process", {
-        cache: "no-cache",
-        headers: {
-          Authorization: `${$AUTH.TOKEN}`,
-        },
-      }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
-
-      target.disabled = false;
-    }}>
-      <Icon icon="clarity:refresh-line" class="w-full h-full" />
-    </button>
+    <div class="flex flex-row h-full gap-2 items-center justify-center">
+      <button class="w-12 h-12 variant-ghost-tertiary p-0 btn rounded-full">
+        <Icon icon="majesticons:plus-line" class="w-full h-full" />
+      </button>
+      <button class="w-12 h-12 variant-ghost-tertiary p-2 btn rounded-full" on:click={async (e) => {
+        let target = e.currentTarget;
+        target.disabled = true;
+  
+        data = (await fetch("https://api-manager.erdemg.dev/process", {
+          cache: "no-cache",
+          headers: {
+            Authorization: `${$AUTH.TOKEN}`,
+          },
+        }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+  
+        target.disabled = false;
+      }}>
+        <Icon icon="clarity:refresh-line" class="w-full h-full" />
+      </button>
+    </div>
   </div>
   <div class="flex flex-col gap-4">
     {#if data}
@@ -60,11 +65,11 @@
         <div class="w-full variant-ghost-primary py-2 px-6 rounded-token flex flex-row items-center text-center justify-between">
           <div class="flex flex-row justify-center items-center gap-4 text-center">
             <span class="w-4 h-4 rounded-full {d.process_id ? "variant-filled-success": "variant-filled-error"}" />
-            <p class="font-mono font-semibold">
-              {d.process_id || ""}
+            <p class="font-mono font-semibold w-8">
+              {d.process_id || "None"}
             </p>
           </div>
-          <p class="font-mono font-semibold">
+          <p class="font-mono font-semibold text-center">
             {d.name}
           </p>
           <div class="flex text-center items-center justify-center gap-3">
