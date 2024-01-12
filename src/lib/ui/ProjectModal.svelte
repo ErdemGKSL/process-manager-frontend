@@ -3,9 +3,6 @@
 
   export let projectId: number = -1;
 
-
-
-
 	import type { SvelteComponent } from 'svelte';
 
 	// Stores
@@ -41,7 +38,7 @@
 
 {#if $modalStore[0]}
 	<div class="modal-example-form {cBase} {$DATA.LOADING ? "hidden" : ""}">
-    <ProjectUI bind:projectId={projectId} />
+    <ProjectUI {projectId} />
 		<footer class="modal-footer {parent.regionFooter}">
 			<button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
 		</footer>

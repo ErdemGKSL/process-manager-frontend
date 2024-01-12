@@ -8,5 +8,5 @@
 </script>
 
 <div class="flex items-center justify-center w-full h-full">
-  <Project projectId={projectId} />
+  <Project {projectId} />
 </div>
