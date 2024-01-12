@@ -15,7 +15,7 @@
     projects = (await fetch("https://api-manager.erdemg.dev/process", {
       cache: "no-cache",
       headers: {
-        Authorization: `${AUTH.TOKEN}`,
+        Authorization: `${$AUTH.TOKEN}`,
       },
     }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
 
@@ -45,7 +45,7 @@
       projects = (await fetch("https://api-manager.erdemg.dev/process", {
         cache: "no-cache",
         headers: {
-          Authorization: `${AUTH.TOKEN}`,
+          Authorization: `${$AUTH.TOKEN}`,
         },
       }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
 

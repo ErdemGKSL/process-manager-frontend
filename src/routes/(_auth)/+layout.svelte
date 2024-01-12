@@ -24,6 +24,7 @@
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import { AUTH } from '$lib';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
@@ -39,10 +40,15 @@
 				<strong class="text-xl uppercase">Management UI</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<a href="/" class="btn variant-ghost-secondary">
+				{#if $AUTH.ADMIN}
+					<a class="btn variant-filled-warning" href="/admin">
+						Admin
+					</a>
+				{/if}
+				<a href="/" class="btn variant-filled-secondary">
 					Projects
 				</a>
-				<button class="btn variant-ghost-error" on:click={() => {
+				<button class="btn variant-filled-error" on:click={() => {
 					localStorage.removeItem('token');
 					location.reload();
 				}}>

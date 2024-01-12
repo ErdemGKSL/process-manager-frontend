@@ -10,13 +10,13 @@
 	if (browser) {
 		$DATA.LOADING = true;
 
-		AUTH.TOKEN = localStorage.getItem('token') ?? null;
+		$AUTH.TOKEN = localStorage.getItem('token') ?? null;
 
 		onMount(async () => {
 			let auth: any = await fetch('https://api-manager.erdemg.dev/auth', {
 				cache: 'no-cache',
 				headers: {
-					'Authorization': `${AUTH.TOKEN}`
+					'Authorization': `${$AUTH.TOKEN}`
 				}
 			}).then(r => r?.json().catch(() => null));
 	
@@ -31,7 +31,7 @@
 			}
 
 			if (auth?.data?.id) {
-				AUTH.ADMIN = auth?.data?.admin;
+				$AUTH.ADMIN = auth?.data?.admin;
 			}
 
 			$DATA.LOADING = false;

@@ -17,7 +17,7 @@
     logs = (await fetch(`https://api-manager.erdemg.dev/process/${projectId}/logs`, {
       cache: "no-cache",
       headers: {
-        Authorization: `${AUTH.TOKEN}`,
+        Authorization: `${$AUTH.TOKEN}`,
       },
     //@ts-ignore
     }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || "NO LOGS";
@@ -35,7 +35,7 @@
     projectData = (await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
       cache: "no-cache",
       headers: {
-        Authorization: `${AUTH.TOKEN}`,
+        Authorization: `${$AUTH.TOKEN}`,
       },
     //@ts-ignore
     }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data;
@@ -66,15 +66,13 @@
       <h1 class="text-3xl text-center text-primary-500">{projectData.name}</h1>
       <span class="w-8 h-8 {projectData.process_id ? "variant-filled-success" : "variant-filled-error"} rounded-full"/>
     </div>
-    <div class="max-h-[50vh] overflow-y-scroll scro">
-      <CodeBlock code={logs} language="prolog" />
-    </div>
+    <CodeBlock code={logs} language="prolog" color="max-h-[50vh] overflow-y-scroll flex flex-col-reverse text-white" />
     <div class="flex flex-row justify-around gap-3">
-      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-ghost-success" on:click={async () => {
+      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-success" on:click={async () => {
         let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
           method: "POST",
           headers: {
-            Authorization: `${AUTH.TOKEN}`,
+            Authorization: `${$AUTH.TOKEN}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -89,13 +87,13 @@
           recursiveProjectFetch();
         }
       }}>
-        <Icon icon="gravity-ui:play-fill" class="sm:w-8 sm:h-8 w-6 h-6" />
+        <Icon icon="gravity-ui:play-fill" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
-      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-ghost-warning" on:click={async () => {
+      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-warning" on:click={async () => {
         let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
           method: "POST",
           headers: {
-            Authorization: `${AUTH.TOKEN}`,
+            Authorization: `${$AUTH.TOKEN}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -110,13 +108,13 @@
           recursiveProjectFetch();
         }
       }}>
-        <Icon icon="icon-park-solid:replay-music" class="sm:w-8 sm:h-8 w-6 h-6" />
+        <Icon icon="icon-park-solid:replay-music" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
-      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-ghost-error" on:click={async () => {
+      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-error" on:click={async () => {
         let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
           method: "POST",
           headers: {
-            Authorization: `${AUTH.TOKEN}`,
+            Authorization: `${$AUTH.TOKEN}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -131,13 +129,13 @@
           recursiveProjectFetch(1);
         }
       }}>
-        <Icon icon="solar:stop-bold" class="sm:w-8 sm:h-8 w-6 h-6" />
+        <Icon icon="solar:stop-bold" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
-      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-ghost-success" on:click={async () => {
+      <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-success" on:click={async () => {
         recursiveLogFetch(1, 0);
         recursiveProjectFetch(1, 0);
       }}>
-        <Icon icon="clarity:refresh-line" class="sm:w-8 sm:h-8 w-6 h-6" />
+        <Icon icon="clarity:refresh-line" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
     </div>
   </div>
