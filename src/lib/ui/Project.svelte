@@ -66,7 +66,7 @@
       <h1 class="text-3xl text-center text-primary-500">{projectData.name}</h1>
       <span class="w-8 h-8 {projectData.process_id ? "variant-filled-success" : "variant-filled-error"} rounded-full"/>
     </div>
-    <div class="h-[50vh] overflow-y-scroll scro">
+    <div class="max-h-[50vh] overflow-y-scroll scro">
       <CodeBlock code={logs} language="prolog" />
     </div>
     <div class="flex flex-row justify-around gap-3">
