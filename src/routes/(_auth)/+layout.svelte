@@ -25,6 +25,7 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { AUTH } from '$lib';
+	import { page } from '$app/stores';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
@@ -41,11 +42,11 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				{#if $AUTH.ADMIN}
-					<a class="btn variant-filled-warning" href="/admin">
+					<a class="btn {$page.url.pathname.startsWith("/admin") ? "variant-ghost-secondary" : "variant-filled-secondary"}" href="/admin">
 						Admin
 					</a>
 				{/if}
-				<a href="/" class="btn variant-filled-secondary">
+				<a href="/" class="btn {$page.url.pathname.startsWith("/admin") ? "variant-filled-secondary" : "variant-ghost-secondary"}">
 					Projects
 				</a>
 				<button class="btn variant-filled-error" on:click={() => {
@@ -58,5 +59,7 @@
 		</AppBar>
 	</svelte:fragment>
 	<!-- Page Route Content -->
-	<slot />
+	<!-- <div class="overflow-scroll"> -->
+		<slot />
+	<!-- </div> -->
 </AppShell>
