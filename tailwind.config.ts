@@ -12,14 +12,22 @@ export default {
 		skeleton({
 			themes: {
 				preset: [
+					// {
+					// 	name: 'crimson',
+					// 	enhancements: true,
+					// },
+					// {
+					// 	name: 'gold-nouveau',
+					// 	enhancements: true,
+					// },
+					// {
+					// 	name: "skeleton",
+					// 	enhancements: true
+					// },
 					{
-						name: 'crimson',
-						enhancements: true,
-					},
-					{
-						name: 'gold-nouveau',
-						enhancements: true,
-					},
+						name: "rocket",
+						enhancements: true
+					}
 				],
 			},
 		}),

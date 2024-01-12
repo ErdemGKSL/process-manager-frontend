@@ -65,7 +65,7 @@
         <div class="w-full variant-ghost-primary py-2 px-6 rounded-token flex flex-row items-center text-center justify-between">
           <div class="flex flex-row justify-center items-center gap-4 text-center">
             <span class="w-4 h-4 rounded-full {d.process_id ? "variant-filled-success": "variant-filled-error"}" />
-            <p class="font-mono font-semibold w-8">
+            <p class="font-mono font-semibold w-0">
               {d.process_id || "None"}
             </p>
           </div>
