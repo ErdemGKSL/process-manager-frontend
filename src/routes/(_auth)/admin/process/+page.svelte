@@ -2,7 +2,7 @@
 	import { browser } from "$app/environment";
 	import { DATA, AUTH } from "$lib";
 	import Icon from "@iconify/svelte";
-	import { CodeBlock } from "@skeletonlabs/skeleton";
+	import { CodeBlock, getDrawerStore } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
 
 
@@ -32,6 +32,8 @@
       $DATA.LOADING = false;
     }
   });
+
+  let drawerStore = getDrawerStore();
 
 </script>
 
@@ -74,7 +76,26 @@
           </p>
           <div class="flex text-center items-center justify-center gap-3">
             
-            <button class="btn variant-filled-tertiary p-2">
+            <button class="btn variant-filled-tertiary p-2" on:click={async () => {
+
+              let users = (await fetch(`https://api-manager.erdemg.dev/process/${d.id}/users`, {
+                cache: "no-cache",
+                headers: {
+                  Authorization: `${$AUTH.TOKEN}`,
+                },
+              }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+
+              drawerStore.open({
+                id: "process_edit",
+                meta: {
+                  ...d,
+                  users
+                },
+                position: "right",
+                width: "max-w-screen w-[400px]"
+              });
+
+            }}>
               <Icon icon="mdi:pen" class="w-6 h-6" />
             </button>
             <button class="btn variant-filled-error p-2">

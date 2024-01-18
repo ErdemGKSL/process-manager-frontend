@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppShell, AppBar, initializeStores, Modal, Toast } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, initializeStores, Modal, Toast, Drawer, getDrawerStore, CodeBlock } from '@skeletonlabs/skeleton';
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -26,12 +26,33 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { AUTH } from '$lib';
 	import { page } from '$app/stores';
+	import { formatDuration } from '$lib/stuffs';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
+
+	let drawerStore = getDrawerStore();
+	
 </script>
 
 <Toast />
 <Modal />
+<Drawer >
+	{#if $drawerStore.id === "process_edit"}
+		<div class="flex flex-col items-center gap-8 p-4">
+			<h1 class="font-thin text-2xl">{$drawerStore.meta.id} - <span class="font-bold">{$drawerStore.meta.name}</span></h1>
+			{#if $drawerStore.meta.until}
+				{formatDuration($drawerStore.meta.until - Date.now(), undefined)}
+			{/if}
+			<CodeBlock code={JSON.stringify($drawerStore.meta, null, 2)} language="json" />
+			<label class="rounded-token variant-ghost-primary p-1 flex flex-col items-center justify-center">
+				<p class="">
+					Add user with id
+				</p>
+				<input type="number" class="bg-transparent w-30">
+			</label>
+		</div>
+	{/if}
+</Drawer>
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
