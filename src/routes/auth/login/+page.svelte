@@ -26,8 +26,8 @@
 				}
 			).then((res) => res.json().catch(() => null)).catch(() => null);
 
-			AUTH.TOKEN = data?.token ?? null;
-			if (AUTH.TOKEN) localStorage.setItem("token", AUTH.TOKEN);
+			$AUTH.TOKEN = data?.token ?? null;
+			if ($AUTH.TOKEN) localStorage.setItem("token", $AUTH.TOKEN);
 			if (data) goto("/");
       disable = false;
 		}}

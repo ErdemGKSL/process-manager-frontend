@@ -27,6 +27,7 @@
 	import { AUTH } from '$lib';
 	import { page } from '$app/stores';
 	import { formatDuration } from '$lib/stuffs';
+	import Icon from '@iconify/svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 
@@ -38,18 +39,48 @@
 <Modal />
 <Drawer >
 	{#if $drawerStore.id === "process_edit"}
-		<div class="flex flex-col items-center gap-8 p-4">
-			<h1 class="font-thin text-2xl">{$drawerStore.meta.id} - <span class="font-bold">{$drawerStore.meta.name}</span></h1>
+		<div class="flex flex-col items-start gap-8 p-4">
+			<div class="font-thin text-2xl flex flex-row justify-between items-center gap-2 w-full">
+				<h1 class="p-1 md:p-4">
+					{$drawerStore.meta.id} - <span class="font-bold">{$drawerStore.meta.name}</span>
+				</h1>
+				<button class="btn variant-filled-error p-2" on:click={() => {
+					drawerStore.close();
+				}}>
+					<Icon icon="ph:x-bold" class="w-6 h-6" />
+				</button>
+			</div>
 			{#if $drawerStore.meta.until}
 				{formatDuration($drawerStore.meta.until - Date.now(), undefined)}
 			{/if}
 			<CodeBlock code={JSON.stringify($drawerStore.meta, null, 2)} language="json" />
-			<label class="rounded-token variant-ghost-primary p-1 flex flex-col items-center justify-center">
-				<p class="">
+			<div class="w-full flex flex-col">
+				<p>
 					Add user with id
 				</p>
-				<input type="number" class="bg-transparent w-30">
-			</label>
+				<label class="rounded-token variant-soft-primary p-1 md:p-4 flex flex-col items-start justify-center w-full">
+					<input type="number" class="bg-transparent w-full" on:keydown={async (e) => {
+						let target = e.currentTarget;
+						if (e.key === "Enter" && !target.disabled) {
+							target.value = "";
+							target.disabled = true;
+
+							let res = await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}/users`, {
+								method: "PUT",
+								headers: {
+									"Authorization": `${$AUTH.TOKEN}`,
+									"Content-Type": "application/json"
+								},
+								body: JSON.stringify({
+									user_id: parseInt(target.value)
+								})
+							}).then(r => r?.json().catch(() => null)).catch(() => null);
+
+							target.disabled = false;
+						}
+					}}>
+				</label>
+			</div>
 		</div>
 	{/if}
 </Drawer>
