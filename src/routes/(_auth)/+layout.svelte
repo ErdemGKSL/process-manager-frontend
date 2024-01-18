@@ -62,6 +62,7 @@
 					<input type="number" class="bg-transparent w-full" on:keydown={async (e) => {
 						let target = e.currentTarget;
 						if (e.key === "Enter" && !target.disabled) {
+							let value = parseInt(target.value);
 							target.value = "";
 							target.disabled = true;
 
@@ -72,9 +73,11 @@
 									"Content-Type": "application/json"
 								},
 								body: JSON.stringify({
-									user_id: parseInt(target.value)
+									user_id: value
 								})
 							}).then(r => r?.json().catch(() => null)).catch(() => null);
+
+							$drawerStore.meta.users.push(value);
 
 							target.disabled = false;
 						}

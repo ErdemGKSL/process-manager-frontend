@@ -78,12 +78,13 @@
             
             <button class="btn variant-filled-tertiary p-2" on:click={async () => {
 
-              let users = (await fetch(`https://api-manager.erdemg.dev/process/${d.id}/users`, {
+              let users = ((await fetch(`https://api-manager.erdemg.dev/process/${d.id}/users`, {
                 cache: "no-cache",
                 headers: {
                   Authorization: `${$AUTH.TOKEN}`,
                 },
-              }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+              // @ts-ignore
+              }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).map((u) => u.user_id);
 
               drawerStore.open({
                 id: "process_edit",
