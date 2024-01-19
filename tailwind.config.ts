@@ -20,14 +20,14 @@ export default {
 					// 	name: 'gold-nouveau',
 					// 	enhancements: true,
 					// },
-					// {
-					// 	name: "skeleton",
-					// 	enhancements: true
-					// },
 					{
-						name: "rocket",
+						name: "skeleton",
 						enhancements: true
-					}
+					},
+					// {
+					// 	name: "rocket",
+					// 	enhancements: true
+					// }
 				],
 			},
 		}),

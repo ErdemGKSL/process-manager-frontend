@@ -90,7 +90,7 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-col rounded-token shadow-black/20 shadow-xl">
+  <div class="flex flex-col shadow-black/20 shadow-xl">
     {#if data}
       {#each data as d, i}
         <div class="w-full {i % 2 ? "bg-secondary-800/20" : "bg-secondary-500/20"} py-2 px-6 flex flex-row items-center text-center justify-between">
@@ -128,8 +128,23 @@
             }}>
               <Icon icon="mdi:pen" class="w-6 h-6" />
             </button>
-            <button class="btn variant-filled-error p-2">
-              <Icon icon="ph:x-bold" class="w-6 h-6" />
+            <button class="btn variant-filled-error p-2" on:click={async (e) => {
+              let target = e.currentTarget;
+              target.disabled = true;
+
+              let res = await fetch(`https://api-manager.erdemg.dev/process/${d.id}`, {
+                method: "DELETE",
+                headers: {
+                  Authorization: `${$AUTH.TOKEN}`,
+                },
+              }).then((r) => r?.json().catch(() => null)).catch(() => null);
+
+              if (res?.ok) {
+                await fetchProcessesRecursive(1, 0);
+              }
+              target.disabled = false;
+            }}>
+              <Icon icon="mdi:trash-can" class="w-6 h-6" />
             </button>
           </div>
         </div>

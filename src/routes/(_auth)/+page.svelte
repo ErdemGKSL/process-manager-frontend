@@ -63,42 +63,45 @@
       <Icon icon="clarity:refresh-line" class="w-full h-full" />
     </button>
   </div>
-  {#each projects as p}
-      <div class="w-full variant-ghost-primary py-2 px-6 rounded-token flex flex-row items-center text-center justify-between">
-        <div class="w-4 h-4 rounded-full {p.process_id ? "variant-filled-success": "variant-filled-error"}" />
-        <p class="font-mono font-semibold">
-          {p.name}
-          {#if p.until}
-            <code>
-              {
-                new Date(p.until).toLocaleString()
-              }
-            </code>
-          {/if}
-        </p>
-        <a href="/project/{p.id}" on:click={(e) => {
-          if (e.metaKey || e.ctrlKey) return;
-          e.preventDefault();
+  <div class="flex flex-col w-full shadow-black/20 shadow-xl">
+    {#each projects as p, i}
+        <div class="w-full {i % 2 ? "bg-secondary-800/20" : "bg-secondary-500/20"} py-2 px-6 flex flex-row items-center text-center justify-between">
+          <div class="w-4 h-4 rounded-full {p.process_id ? "variant-filled-success": "variant-filled-error"}" />
+          <p class="font-mono font-semibold">
+            {p.name}
+            {#if p.until}
+              <code>
+                {
+                  new Date(p.until).toLocaleString()
+                }
+              </code>
+            {/if}
+          </p>
+          <a href="/project/{p.id}" class="btn p-2 rounded-token variant-filled-secondary shadow-md shadow-black/50" on:click={(e) => {
+            if (e.metaKey || e.ctrlKey) return;
+            e.preventDefault();
+  
+            pushState(`/project/${p.id}`, {
+              projectModalId: p.id
+            });
+  
+            modalStore.trigger({
+              type: "component",
+              component: {
+                ref: ProjectModal,
+                props: {
+                  projectId: p.id,
+                }
+              },
+              response(r) {
+                history.back();
+              },
+            });
+          }}>
+            <Icon icon="fluent:open-28-filled" class="w-6 h-6" />
+          </a>
+        </div>
+    {/each}
 
-          pushState(`/project/${p.id}`, {
-            projectModalId: p.id
-          });
-
-          modalStore.trigger({
-            type: "component",
-            component: {
-              ref: ProjectModal,
-              props: {
-                projectId: p.id,
-              }
-            },
-            response(r) {
-              history.back();
-            },
-          });
-        }}>
-          <Icon icon="clarity:angle-line" class="w-6 h-6 font-extrabold" />
-        </a>
-      </div>
-  {/each}
+  </div>
 </div>
