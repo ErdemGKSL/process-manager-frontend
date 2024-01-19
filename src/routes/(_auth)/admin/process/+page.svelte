@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { browser } from "$app/environment";
 	import { DATA, AUTH } from "$lib";
+	import ProjectCreateModal from "$lib/ui/ProjectCreateModal.svelte";
 	import Icon from "@iconify/svelte";
-	import { CodeBlock, getDrawerStore } from "@skeletonlabs/skeleton";
+	import { CodeBlock, getDrawerStore, getModalStore } from "@skeletonlabs/skeleton";
 	import { onMount } from "svelte";
 
 
@@ -34,6 +35,7 @@
   });
 
   let drawerStore = getDrawerStore();
+  let modalStore = getModalStore();
 
 </script>
 
@@ -41,7 +43,34 @@
   <div class="flex flex-row items-center justify-between">
     <h1 class="font-semibold text-2xl">Processes</h1>
     <div class="flex flex-row h-full gap-2 items-center justify-center">
-      <button class="w-12 h-12 variant-ghost-tertiary p-0 btn rounded-full">
+      <button class="w-12 h-12 variant-ghost-tertiary p-0 btn rounded-full" on:click={() => {
+        modalStore.trigger({
+          type: "component",
+          component: {
+            ref: ProjectCreateModal
+          },
+          async response(r) {
+            if (r && r.name && r.dir && r.cmd) {
+              let res = await fetch("https://api-manager.erdemg.dev/process", {
+                method: "PUT",
+                headers: {
+                  Authorization: `${$AUTH.TOKEN}`,
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  name: r.name,
+                  dir: r.dir,
+                  cmd: r.cmd
+                })
+              }).then(r => r?.json().catch(() => null)).catch(() => null);
+
+              if (res?.ok) {
+                await fetchProcessesRecursive(1, 0);
+              }
+            }
+          },
+        });
+      }}>
         <Icon icon="majesticons:plus-line" class="w-full h-full" />
       </button>
       <button class="w-12 h-12 variant-ghost-tertiary p-2 btn rounded-full" on:click={async (e) => {
