@@ -98,7 +98,7 @@
               },
             });
           }}>
-            <Icon icon="fluent:open-28-filled" class="w-6 h-6" />
+            <Icon icon="fluent:open-28-filled" class="w-6 h-6 text-white" />
           </a>
         </div>
     {/each}

@@ -126,7 +126,7 @@
               });
 
             }}>
-              <Icon icon="mdi:pen" class="w-6 h-6" />
+              <Icon icon="mdi:pen" class="w-6 h-6 text-white" />
             </button>
             <button class="btn variant-filled-error p-2" on:click={async (e) => {
               let target = e.currentTarget;
@@ -144,7 +144,7 @@
               }
               target.disabled = false;
             }}>
-              <Icon icon="mdi:trash-can" class="w-6 h-6" />
+              <Icon icon="mdi:trash-can" class="w-6 h-6 text-white" />
             </button>
           </div>
         </div>
