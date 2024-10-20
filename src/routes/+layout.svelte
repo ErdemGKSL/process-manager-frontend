@@ -19,7 +19,7 @@
 					'Authorization': `${$AUTH.TOKEN}`
 				}
 			}).then(r => r?.json().catch(() => null));
-	
+
 			if (!$page.url.pathname.startsWith('/auth')) {
 				if (!auth?.data?.id) {
 					goto('/auth/login');

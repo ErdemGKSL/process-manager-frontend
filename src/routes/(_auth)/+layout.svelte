@@ -28,6 +28,8 @@
 	import { page } from '$app/stores';
 	import { formatDuration } from '$lib/stuffs';
 	import Icon from '@iconify/svelte';
+    import DatePicker from '$lib/ui/DatePicker.svelte';
+    import ChangeAndView from '$lib/ui/ChangeAndView.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 
@@ -38,10 +40,11 @@
 <Modal />
 <Drawer >
 	{#if $drawerStore.id === "process_edit"}
-		<div class="flex flex-col items-start gap-8 p-4">
+		<div class="flex flex-col items-start gap-2 p-4">
 			<div class="font-thin text-2xl flex flex-row justify-between items-center gap-2 w-full">
-				<h1 class="p-1 md:p-4">
-					{$drawerStore.meta.id} - <span class="font-bold">{$drawerStore.meta.name}</span>
+				<h1 class="p-1 md:p-4 flex flex-row justify-start items-center w-full">
+				   <span class="pr-2">{$drawerStore.meta.id}</span> -
+				   <ChangeAndView class="pl-1/2 flex w-fit" inputClass="input px-2 py-1 font-bold w-full flex" innerClass="px-2 py-1 font-bold" bind:value={$drawerStore.meta.nameChange} defaultValue={$drawerStore.meta.name}/>
 				</h1>
 				<button class="btn variant-filled-error p-2" on:click={() => {
 					drawerStore.close();
@@ -49,47 +52,110 @@
 					<Icon icon="ph:x-bold" class="w-6 h-6" />
 				</button>
 			</div>
-			{#if $drawerStore.meta.until}
-				{formatDuration($drawerStore.meta.until - Date.now(), undefined)}
+
+			<!-- -- <CodeBlock code={JSON.stringify($drawerStore.meta, null, 2)} language="json" /> -->
+			<!--
+			make an elegant styled with tailwind to render #drawerStore.meta with the example json file of: {
+                "cmd": "./start.sh",
+                "dir": "/home/erdem/other/cbot2",
+                "id": 8,
+                "name": "CBot2",
+                "process_id": 2123113,
+                "until": null,
+                "users": [
+                    2,
+                    3
+                ]
+            }
+		 -->
+			{#if $drawerStore.meta}
+				<div class="px-4 rounded-lg w-full flex gap-2 flex-col">
+    				<div class="w-full flex flex-row items-center">
+                        <p class="font-bold pr-2">Command:</p>
+                        <ChangeAndView class="h-8" inputClass="input px-2 py-1" innerClass="px-2 py-1" bind:value={$drawerStore.meta.cmdChange} defaultValue={$drawerStore.meta.cmd}/>
+    				</div>
+                    <div class="w-full flex flex-row items-center">
+                        <p class="font-bold pr-2">Folder:</p>
+                        <ChangeAndView class="h-8" inputClass="input px-2 py-1" innerClass="px-2 py-1" bind:value={$drawerStore.meta.dirChange} defaultValue={$drawerStore.meta.dir}/>
+    				</div>
+                    <div class="w-full flex flex-row items-center">
+                        <p class="font-bold pr-2">
+                            Until:
+                        </p>
+        				{#if $drawerStore.meta.until !== null}
+           					<p class="text-sm">Time Remaining: {formatDuration(new Date($drawerStore.meta.until).getTime() - Date.now(), undefined)}</p>
+           					<DatePicker bind:date={$drawerStore.meta.untilChange} defaultValue={new Date($drawerStore.meta.until)} />
+        				{:else}
+        				    <DatePicker bind:date={$drawerStore.meta.untilChange} />
+        				{/if}
+    				</div>
+    			</div>
+				<div class="w-full flex flex-row-reverse">
+				    <button class="btn variant-filled-success" on:click={async () => {
+						console.log($drawerStore.meta.until, $drawerStore.meta.untilChange)
+						const updateObject = {
+						  name: $drawerStore.meta.name === $drawerStore.meta.nameChange ? undefined : $drawerStore.meta.nameChange,
+						  cmd: $drawerStore.meta.cmd === $drawerStore.meta.cmdChange ? undefined : $drawerStore.meta.cmdChange,
+						  dir: $drawerStore.meta.dir === $drawerStore.meta.dirChange ? undefined : $drawerStore.meta.dirChange,
+						  until: $drawerStore.meta.until === $drawerStore.meta.untilChange ? undefined : ($drawerStore.meta.untilChange || "Infinite")
+						};
+						console.log({ updateObject });
+						await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}`, {
+    						method: "PATCH",
+    						headers: {
+     							"Authorization": `${$AUTH.TOKEN}`,
+     							"Content-Type": "application/json"
+    						},
+    						body: JSON.stringify(updateObject)
+						})
+
+					}}>Save</button>
+				</div>
 			{/if}
-			<CodeBlock code={JSON.stringify($drawerStore.meta, null, 2)} language="json" />
-			<div class="w-full flex flex-col">
-				<p>
-					Add user with id
-				</p>
-				<label class="rounded-token variant-soft-primary p-1 md:p-4 flex flex-col items-start justify-center w-full">
-					<input type="number" class="bg-transparent w-full" on:keydown={async (e) => {
-						let target = e.currentTarget;
-						if (e.key === "Enter" && !target.disabled) {
-							let value = parseInt(target.value);
-							target.value = "";
-							target.disabled = true;
+		</div>
+	{:else if $drawerStore.id === "process_members_edit"}
+	   <div class="mt-4">
+			<p class="font-bold">Users:</p>
+			<ul class="list-disc pl-4">
+			{#each $drawerStore.meta.users as user}
+			<li>{user}</li>
+			{/each}
+			</ul>
+		</div>
+		<div class="w-full flex flex-col">
+			<p>
+				Add user with id
+			</p>
+			<label class="rounded-token variant-soft-primary p-1 md:p-4 flex flex-col items-start justify-center w-full">
+				<input type="number" class="bg-transparent w-full" on:keydown={async (e) => {
+					let target = e.currentTarget;
+					if (e.key === "Enter" && !target.disabled) {
+						let value = parseInt(target.value);
+						target.value = "";
+						target.disabled = true;
 
-							let res = await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}/users`, {
-								method: "PUT",
-								headers: {
-									"Authorization": `${$AUTH.TOKEN}`,
-									"Content-Type": "application/json"
-								},
-								body: JSON.stringify({
-									user_id: value
-								})
-							}).then(r => r?.json().catch(() => null)).catch(() => null);
+						let res = await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}/users`, {
+							method: "PUT",
+							headers: {
+								"Authorization": `${$AUTH.TOKEN}`,
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify({
+								user_id: value
+							})
+						}).then(r => r?.json().catch(() => null)).catch(() => null);
 
-							$drawerStore.meta.users.push(value);
+						$drawerStore.meta.users.push(value);
 
-							target.disabled = false;
-						}
-					}}>
-				</label>
-			</div>
+						target.disabled = false;
+					}
+				}}>
+			</label>
 		</div>
 	{/if}
 </Drawer>
-<!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
-		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
 				<strong class="text-xl uppercase">Management UI</strong>

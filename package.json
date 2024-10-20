@@ -13,6 +13,8 @@
   "devDependencies": {
     "@floating-ui/dom": "1.5.4",
     "@iconify/svelte": "^3.1.6",
+    "@internationalized/date": "^3.5.6",
+    "@melt-ui/svelte": "^0.83.0",
     "@skeletonlabs/skeleton": "2.7.0",
     "@skeletonlabs/tw-plugin": "0.3.1",
     "@sveltejs/adapter-auto": "^3.0.0",
@@ -21,6 +23,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/node": "20.11.0",
     "autoprefixer": "10.4.16",
+    "bits-ui": "^0.21.16",
     "highlight.js": "11.9.0",
     "postcss": "8.4.33",
     "svelte": "^4.2.7",

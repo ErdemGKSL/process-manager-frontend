@@ -27,7 +27,7 @@
   onMount(async () => {
     if (browser) {
       $DATA.LOADING = true;
-      
+
       await fetchProcessesRecursive(1, 0);
 
       $DATA.LOADING = false;
@@ -76,14 +76,14 @@
       <button class="w-12 h-12 variant-ghost-tertiary p-2 btn rounded-full" on:click={async (e) => {
         let target = e.currentTarget;
         target.disabled = true;
-  
+
         data = (await fetch("https://api-manager.erdemg.dev/process", {
           cache: "no-cache",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,
           },
         }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
-  
+
         target.disabled = false;
       }}>
         <Icon icon="clarity:refresh-line" class="w-full h-full" />
@@ -104,9 +104,7 @@
             {d.name}
           </p>
           <div class="flex text-center items-center justify-center gap-3">
-            
             <button class="btn variant-filled-tertiary p-2" on:click={async () => {
-
               let users = ((await fetch(`https://api-manager.erdemg.dev/process/${d.id}/users`, {
                 cache: "no-cache",
                 headers: {
@@ -116,7 +114,7 @@
               }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).map((u) => u.user_id);
 
               drawerStore.open({
-                id: "process_edit",
+                id: "process_members_edit",
                 meta: {
                   ...d,
                   users
@@ -124,9 +122,22 @@
                 position: "right",
                 width: "max-w-screen w-[400px]"
               });
+            }}>
+                  <Icon icon="gravity-ui:persons" width="24" height="24" class="text-white" />
+            </button>
+            <button class="btn variant-filled-tertiary p-2" on:click={async () => {
+
+              drawerStore.open({
+                id: "process_edit",
+                meta: {
+                  ...(d || {})
+                },
+                position: "right",
+                width: "max-w-screen w-[400px]"
+              });
 
             }}>
-              <Icon icon="mdi:pen" class="w-6 h-6 text-white" />
+              <Icon icon="mdi:pen" width="24" height="24" class="text-white" />
             </button>
             <button class="btn variant-filled-error p-2" on:click={async (e) => {
               let target = e.currentTarget;
@@ -144,7 +155,7 @@
               }
               target.disabled = false;
             }}>
-              <Icon icon="mdi:trash-can" class="w-6 h-6 text-white" />
+              <Icon icon="mdi:trash-can" width="24" height="24" class="text-white" />
             </button>
           </div>
         </div>

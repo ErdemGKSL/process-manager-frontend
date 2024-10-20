@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { AUTH } from "$lib";
-
+  import { goto } from "$app/navigation";
+  import { AUTH } from "$lib";
 
   let username = "";
   let password = "";
   let password2 = "";
   let disable = false;
+
 </script>
 
 <div class="bg-surface-800 w-full min-h-full sm:p-12 p-2 flex justify-center sm:items-center sm:pt-0 pt-16">
