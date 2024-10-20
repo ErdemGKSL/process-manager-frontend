@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { AUTH, DATA } from "$lib";
 	import { CodeBlock, getModalStore } from "@skeletonlabs/skeleton";
-  import Icon from "@iconify/svelte";
+    import Icon from "@iconify/svelte";
 	import { onMount } from "svelte";
 	import { pushState } from "$app/navigation";
 	import { page } from "$app/stores";
 	import ProjectModal from "$lib/ui/ProjectModal.svelte";
+    import Tooltip from "$lib/ui/Tooltip.svelte";
+    import { formatDuration } from "$lib/stuffs";
 
   let projects: any[] = [];
 
@@ -28,8 +30,8 @@
   // $: {
   //   if (($page.state as any).projectModalId) {
   //     let modalId = ($page.state as any).projectModalId;
-      
-  //   } 
+
+  //   }
   // }
 
 </script>
@@ -66,25 +68,29 @@
   <div class="flex flex-col w-full shadow-black/20 shadow-xl">
     {#each projects as p, i}
         <div class="w-full {i % 2 ? "bg-secondary-800/20" : "bg-secondary-500/20"} py-2 px-6 flex flex-row items-center text-center justify-between">
-          <div class="w-4 h-4 rounded-full {p.process_id ? "variant-filled-success": "variant-filled-error"}" />
+          <div class="flex flex-row justify-center items-center gap-4 cursor-default">
+            <div class="w-4 h-4 rounded-full {p.process_id ? "variant-filled-success": "variant-filled-error"} relative" />
+            {#if p.until}
+                <Tooltip content="In {formatDuration(new Date(p.until).getTime() - Date.now(), undefined)}" class="left-20 cursor-default hidden md:flex absolute whitespace-nowrap">
+                    <code class="bg-black/20 p-1">
+                        {
+                            new Date(p.until).toLocaleDateString()
+                        }
+                    </code>
+                </Tooltip>
+            {/if}
+          </div>
           <p class="font-mono font-semibold">
             {p.name}
-            {#if p.until}
-              <code>
-                {
-                  new Date(p.until).toLocaleString()
-                }
-              </code>
-            {/if}
           </p>
           <a href="/project/{p.id}" class="btn p-2 rounded-token variant-filled-secondary shadow-md shadow-black/50" on:click={(e) => {
             if (e.metaKey || e.ctrlKey) return;
             e.preventDefault();
-  
+
             pushState(`/project/${p.id}`, {
               projectModalId: p.id
             });
-  
+
             modalStore.trigger({
               type: "component",
               component: {

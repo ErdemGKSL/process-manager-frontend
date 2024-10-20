@@ -78,27 +78,36 @@
                         <p class="font-bold pr-2">Folder:</p>
                         <ChangeAndView class="h-8" inputClass="input px-2 py-1" innerClass="px-2 py-1" bind:value={$drawerStore.meta.dirChange} defaultValue={$drawerStore.meta.dir}/>
     				</div>
-                    <div class="w-full flex flex-row items-center">
-                        <p class="font-bold pr-2">
-                            Until:
-                        </p>
+                    <div class="w-full flex flex-col justify-center">
         				{#if $drawerStore.meta.until !== null}
-           					<p class="text-sm">Time Remaining: {formatDuration(new Date($drawerStore.meta.until).getTime() - Date.now(), undefined)}</p>
+           					<p class="text-sm font-bold">Time Remaining:</p>
+                            <p class="text-sm">
+                                {formatDuration(new Date($drawerStore.meta.until).getTime() - Date.now(), undefined)}
+                            </p>
+                            <p class="font-bold pr-2 mt-4">
+                                Until:
+                            </p>
            					<DatePicker bind:date={$drawerStore.meta.untilChange} defaultValue={new Date($drawerStore.meta.until)} />
         				{:else}
+                            <p class="font-bold pr-2">
+                                Until:
+                            </p>
         				    <DatePicker bind:date={$drawerStore.meta.untilChange} />
         				{/if}
     				</div>
     			</div>
 				<div class="w-full flex flex-row-reverse">
 				    <button class="btn variant-filled-success" on:click={async () => {
-						console.log($drawerStore.meta.until, $drawerStore.meta.untilChange)
+						const untilValue = $drawerStore.meta?.untilChange?.toDate().toJSON().slice(0, -1);
 						const updateObject = {
 						  name: $drawerStore.meta.name === $drawerStore.meta.nameChange ? undefined : $drawerStore.meta.nameChange,
 						  cmd: $drawerStore.meta.cmd === $drawerStore.meta.cmdChange ? undefined : $drawerStore.meta.cmdChange,
 						  dir: $drawerStore.meta.dir === $drawerStore.meta.dirChange ? undefined : $drawerStore.meta.dirChange,
-						  until: $drawerStore.meta.until === $drawerStore.meta.untilChange ? undefined : ($drawerStore.meta.untilChange || "Infinite")
+						  until: $drawerStore.meta.until == $drawerStore.meta.untilChange ? undefined : ((untilValue && {
+						    Date: untilValue
+						  })|| "Infinite")
 						};
+
 						console.log({ updateObject });
 						await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}`, {
     						method: "PATCH",
