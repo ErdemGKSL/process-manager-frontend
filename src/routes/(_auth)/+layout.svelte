@@ -32,7 +32,6 @@
 	initializeStores();
 
 	let drawerStore = getDrawerStore();
-	
 </script>
 
 <Toast />
