@@ -9,7 +9,7 @@ import { redirect } from '@sveltejs/kit';
 //   fetch,
 //   url
 // }) {
-//   let auth: any = await fetch('https://api-manager.erdemg.dev/auth', {
+//   let auth: any = await fetch('https://manager.erdemdev.tr/api/auth', {
 //     credentials: 'include',
 //     cache: 'no-cache',
 //   }).then(r => r?.json().catch(() => null));

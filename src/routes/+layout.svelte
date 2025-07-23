@@ -13,7 +13,7 @@
 		$AUTH.TOKEN = localStorage.getItem('token') ?? null;
 
 		onMount(async () => {
-			let auth: any = await fetch('https://api-manager.erdemg.dev/auth', {
+			let auth: any = await fetch('https://manager.erdemdev.tr/api/auth', {
 				cache: 'no-cache',
 				headers: {
 					'Authorization': `${$AUTH.TOKEN}`

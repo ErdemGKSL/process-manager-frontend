@@ -13,7 +13,7 @@
   <form class="variant-ghost-secondary sm:p-12 p-4 rounded-3xl w-[600px] max-w-full gap-2 sm:gap-8 flex flex-col font-mono font-extrabold sm:justify-start justify-around h-fit" on:submit={async () => {
     disable = true;
 			let data = await fetch(
-				"https://api-manager.erdemg.dev/auth/register",
+				"https://manager.erdemdev.tr/api/auth/register",
 				{
 					method: "POST",
 					headers: {

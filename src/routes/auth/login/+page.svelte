@@ -19,7 +19,7 @@
         on:submit={async () => {
             disable = true;
             let data = await fetch(
-                "https://api-manager.erdemg.dev/auth/login",
+                "https://manager.erdemdev.tr/api/auth/login",
                 {
                     method: "POST",
                     headers: {

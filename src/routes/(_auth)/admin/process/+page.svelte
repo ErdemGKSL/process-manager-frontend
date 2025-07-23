@@ -12,7 +12,7 @@
   async function fetchProcessesRecursive(times = 3, timeout = 5000) {
     if (times <= 0) return;
 
-    data = (await fetch("https://api-manager.erdemg.dev/process", {
+    data = (await fetch("https://manager.erdemdev.tr/api/process", {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
@@ -51,7 +51,7 @@
           },
           async response(r) {
             if (r && r.name && r.dir && r.cmd) {
-              let res = await fetch("https://api-manager.erdemg.dev/process", {
+              let res = await fetch("https://manager.erdemdev.tr/api/process", {
                 method: "PUT",
                 headers: {
                   Authorization: `${$AUTH.TOKEN}`,
@@ -77,7 +77,7 @@
         let target = e.currentTarget;
         target.disabled = true;
 
-        data = (await fetch("https://api-manager.erdemg.dev/process", {
+        data = (await fetch("https://manager.erdemdev.tr/api/process", {
           cache: "no-cache",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,
@@ -105,7 +105,7 @@
           </p>
           <div class="flex text-center items-center justify-center gap-3">
             <button class="btn variant-filled-tertiary p-2" on:click={async () => {
-              let users = ((await fetch(`https://api-manager.erdemg.dev/process/${d.id}/users`, {
+              let users = ((await fetch(`https://manager.erdemdev.tr/api/process/${d.id}/users`, {
                 cache: "no-cache",
                 headers: {
                   Authorization: `${$AUTH.TOKEN}`,
@@ -143,7 +143,7 @@
               let target = e.currentTarget;
               target.disabled = true;
 
-              let res = await fetch(`https://api-manager.erdemg.dev/process/${d.id}`, {
+              let res = await fetch(`https://manager.erdemdev.tr/api/process/${d.id}`, {
                 method: "DELETE",
                 headers: {
                   Authorization: `${$AUTH.TOKEN}`,

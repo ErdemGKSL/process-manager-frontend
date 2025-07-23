@@ -109,7 +109,7 @@
 						};
 
 						console.log({ updateObject });
-						await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}`, {
+						await fetch(`https://manager.erdemdev.tr/api/process/${$drawerStore.meta.id}`, {
     						method: "PATCH",
     						headers: {
      							"Authorization": `${$AUTH.TOKEN}`,
@@ -143,7 +143,7 @@
 						target.value = "";
 						target.disabled = true;
 
-						let res = await fetch(`https://api-manager.erdemg.dev/process/${$drawerStore.meta.id}/users`, {
+						let res = await fetch(`https://manager.erdemdev.tr/api/process/${$drawerStore.meta.id}/users`, {
 							method: "PUT",
 							headers: {
 								"Authorization": `${$AUTH.TOKEN}`,

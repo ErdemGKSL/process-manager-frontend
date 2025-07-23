@@ -14,7 +14,7 @@
   async function recursiveLogFetch(times = 3, wait = 5000) {
     if (times <= 0) return;
 
-    logs = (await fetch(`https://api-manager.erdemg.dev/process/${projectId}/logs`, {
+    logs = (await fetch(`https://manager.erdemdev.tr/api/process/${projectId}/logs`, {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
@@ -32,7 +32,7 @@
   async function recursiveProjectFetch(times = 3, wait = 5000) {
     if (times <= 0) return;
 
-    projectData = (await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
+    projectData = (await fetch(`https://manager.erdemdev.tr/api/process/${projectId}`, {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
@@ -69,7 +69,7 @@
     <CodeBlock code={logs} language="prolog" color="max-h-[50vh] overflow-y-scroll flex flex-col-reverse text-white" />
     <div class="flex flex-row justify-around gap-3">
       <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-success" on:click={async () => {
-        let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
+        let result = await fetch(`https://manager.erdemdev.tr/api/process/${projectId}`, {
           method: "POST",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,
@@ -90,7 +90,7 @@
         <Icon icon="gravity-ui:play-fill" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
       <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-warning" on:click={async () => {
-        let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
+        let result = await fetch(`https://manager.erdemdev.tr/api/process/${projectId}`, {
           method: "POST",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,
@@ -111,7 +111,7 @@
         <Icon icon="icon-park-solid:replay-music" class="sm:w-8 sm:h-8 w-6 h-6 text-white" />
       </button>
       <button class="btn sm:px-8 sm:py-2 px-6 py-1.5 variant-filled-error" on:click={async () => {
-        let result = await fetch(`https://api-manager.erdemg.dev/process/${projectId}`, {
+        let result = await fetch(`https://manager.erdemdev.tr/api/process/${projectId}`, {
           method: "POST",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,

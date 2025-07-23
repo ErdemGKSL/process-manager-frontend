@@ -14,7 +14,7 @@
   onMount(async () => {
     $DATA.LOADING = true;
 
-    projects = (await fetch("https://api-manager.erdemg.dev/process", {
+    projects = (await fetch("https://manager.erdemdev.tr/api/process", {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
@@ -53,7 +53,7 @@
       let target = e.currentTarget;
       target.disabled = true;
 
-      projects = (await fetch("https://api-manager.erdemg.dev/process", {
+      projects = (await fetch("https://manager.erdemdev.tr/api/process", {
         cache: "no-cache",
         headers: {
           Authorization: `${$AUTH.TOKEN}`,
