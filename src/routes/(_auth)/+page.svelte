@@ -19,7 +19,7 @@
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
       },
-    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
+    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => a.id - b.id);
 
     $DATA.LOADING = false;
   });
@@ -58,7 +58,7 @@
         headers: {
           Authorization: `${$AUTH.TOKEN}`,
         },
-      }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
+      }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => a.id - b.id);
 
       target.disabled = false;
     }}>
