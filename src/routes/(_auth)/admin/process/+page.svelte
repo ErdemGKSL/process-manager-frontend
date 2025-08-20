@@ -12,12 +12,12 @@
   async function fetchProcessesRecursive(times = 3, timeout = 5000) {
     if (times <= 0) return;
 
-    data = (await fetch("https://manager.erdemdev.tr/api/process", {
+    data = ((await fetch("https://manager.erdemdev.tr/api/process", {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
       },
-    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
 
     await new Promise((r) => setTimeout(r, timeout));
 
@@ -77,12 +77,12 @@
         let target = e.currentTarget;
         target.disabled = true;
 
-        data = (await fetch("https://manager.erdemdev.tr/api/process", {
+        data = ((await fetch("https://manager.erdemdev.tr/api/process", {
           cache: "no-cache",
           headers: {
             Authorization: `${$AUTH.TOKEN}`,
           },
-        }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+        }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
 
         target.disabled = false;
       }}>
