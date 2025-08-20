@@ -14,12 +14,12 @@
   onMount(async () => {
     $DATA.LOADING = true;
 
-    projects = (await fetch("https://manager.erdemdev.tr/api/process", {
+    projects = ((await fetch("https://manager.erdemdev.tr/api/process", {
       cache: "no-cache",
       headers: {
         Authorization: `${$AUTH.TOKEN}`,
       },
-    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+    }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
 
     $DATA.LOADING = false;
   });
@@ -53,12 +53,12 @@
       let target = e.currentTarget;
       target.disabled = true;
 
-      projects = (await fetch("https://manager.erdemdev.tr/api/process", {
+      projects = ((await fetch("https://manager.erdemdev.tr/api/process", {
         cache: "no-cache",
         headers: {
           Authorization: `${$AUTH.TOKEN}`,
         },
-      }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || [];
+      }).then((r) => r?.json().catch(() => null)).catch(() => null))?.data || []).sort((a, b) => b.id - a.id);
 
       target.disabled = false;
     }}>
